@@ -1,0 +1,87 @@
+﻿@model IEnumerable<LiquorWebshop.Models.Whisky>
+
+<div class="vh-100 w-100 container">
+    <div class="mt-5 p-5 border rounded shadow">
+        <div>
+            <h2>Whisky List</h2>
+        </div>
+        <br />
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Name)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Type)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Brand)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Taste)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Price)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Alcohol)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Volume)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.CountryId)
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Type)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Brand)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Taste)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Price)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Alcohol)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Volume)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CountryId)
+                        </td>
+                        <td class="text-end">
+                            <a asp-action="Edit" asp-route-id="@item.Id"><i class="bi bi-pencil"></i></a> |
+                            <a asp-action="Details" asp-route-id="@item.Id"><i class="bi bi-file-earmark-text"></i></a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <a asp-controller="Whisky" asp-action="List" class="btn btn-outline-primary" style="width:150px">Back</a>
+    </div>
+</div>
+
+<div style="position:fixed; right:25px; bottom:25px;" >
+    <a asp-controller="Whisky" asp-action="Create" class="btn btn-outline-success" style="display:block;"><i class="bi bi-plus-lg"></i>Add Whisky</a>
+</div>
+
+@section Scripts {
+    @{
+    <partial name="_ValidationScriptsPartial" />
+    }
+}

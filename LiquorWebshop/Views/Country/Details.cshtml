@@ -1,0 +1,21 @@
+﻿@model LiquorWebshop.Models.Country
+
+<div class="container p-3">
+    <div class="row pt-4">
+        <div class="col-6">
+            <h2 class="text">Country Details</h2>
+        </div>
+    </div>
+</div>
+<br />
+<table class="table table-striped" style="width:100%">
+    <col style="width:10%">
+    <col style="width:90%">
+    <tbody>
+        <tr>
+            <td style="font-weight:900">Title</td>
+            <td>@Model.Name</td>
+        </tr>
+    </tbody>
+</table>
+<a asp-controller="Country" asp-action="Index" class="btn btn-outline-primary" style="width:150px">Back</a>

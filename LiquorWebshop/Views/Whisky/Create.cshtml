@@ -1,0 +1,117 @@
+﻿@using LiquorWebshop.Data.Enum
+@model LiquorWebshop.Models.Whisky
+
+@{
+    List<Country> Countries = ViewData["Countries"] as List<Country>;
+
+
+}
+
+<div class="min-vh-100 w-50 container">
+    <div class="border rounded shadow p-4">
+        <form method="post" enctype="multipart/form-data">
+            <div>
+                <div class="row pb-2">
+                    <h2 class="text">Add Whisky</h2>
+                    <hr />
+                </div>
+                <div class="form-group text-center mb-3">
+                    <img id="imagePreview" src="~/img/placeholder.jpg" alt="" class="img-thumbnail" style="width:300px"/>
+                </div>
+                <div class="mb-3">
+                    <input asp-for="ImageFile" class="form-control" type="file" accept="image/*" onchange="javascript:showPreview(this);" />
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Name"></label>
+                    <input asp-for="Name" class="form-control" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="Description"></label>
+                    <textarea asp-for="Description" class="form-control"></textarea>
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="Type"></label>
+                    <select asp-for="Type" class="form-control">
+                        <option>Select type...</option>
+                        @foreach (string type in Enum.GetNames(typeof(WhiskyType)))
+                        {
+                            <option>@type</option>
+                        }
+                    </select>
+                    <span asp-validation-for="Type" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="Brand"></label>
+                    <input asp-for="Brand" class="form-control" />
+                    <span asp-validation-for="Brand" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="Taste"></label>
+                    <select asp-for="Taste" class="form-control">
+                        <option>Select taste...</option>
+                        <option value="Mild_soft">Mild & soft</option>
+                        <option value="Medium_grany">Medium & grany</option>
+                        <option value="Full_rich">Full & rich</option>
+                        <option value="Powerful_smokey">Powerful & smokey</option>
+                    </select>
+                    <span asp-validation-for="Taste" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="Price"></label>
+                    <input asp-for="Price" type="number" step=".01" class="form-control" />
+                    <span asp-validation-for="Price" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="Alcohol"></label>
+                    <input asp-for="Alcohol" type="number" step=".1" class="form-control" />
+                    <span asp-validation-for="Alcohol" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="Volume"></label>
+                    <input asp-for="Volume" type="number" step="1" class="form-control" />
+                    <span asp-validation-for="Volume" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="CountryId"></label>
+                    <select asp-for="CountryId" class="form-control">
+                        <option>Select country...</option>
+                        @if (Countries != null)
+                        {
+                            @foreach (Country country in Countries)
+                            {
+                                <option value="@country.Id">@country.Name</option>
+                            }
+                        }
+                    </select>
+                    <span asp-validation-for="CountryId" class="text-danger"></span>
+                </div>
+
+                <button type="submit" class="btn btn-primary" style="width:150px">Create</button>
+                <a asp-controller="Whisky" asp-action="List" class="btn btn-outline-primary" style="width:150px">Back</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <script type="text/javascript">
+        function showPreview(input)
+        {
+            if (input.files && input.files[0])
+            {
+                var reader = new FileReader();
+                reader.onload = event => {
+                    $("#imagePreview").attr('src', event.target.result);
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+    </script>
+
+    @{
+    <partial name="_ValidationScriptsPartial" />
+    }
+}
