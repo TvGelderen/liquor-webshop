@@ -38,22 +38,27 @@ namespace LiquorWebshop.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([FromForm] Whisky whisky)
         {
-            if (whisky == null || whisky.ImageFile == null)
-                return View(whisky);
-
-            var imagePath = Path.Combine(_environment.WebRootPath, "img", whisky.ImageFile.FileName);
-
-            using (var stream = new FileStream(imagePath, FileMode.Create))
+            if (ModelState.IsValid)
             {
-                await whisky.ImageFile.CopyToAsync(stream);
+                if (whisky.ImageFile == null)
+                    return View(whisky);
+
+                var imagePath = Path.Combine(_environment.WebRootPath, "img", whisky.ImageFile.FileName);
+
+                using (var stream = new FileStream(imagePath, FileMode.Create))
+                {
+                    await whisky.ImageFile.CopyToAsync(stream);
+                }
+
+                whisky.Image = "./img/" + whisky.ImageFile.FileName;
+
+                await _context.Whiskies.AddAsync(whisky);
+                await _context.SaveChangesAsync();
+
+                return RedirectToAction("List");
             }
 
-            whisky.Image = "./img/" + whisky.ImageFile.FileName;
-
-            await _context.Whiskies.AddAsync(whisky);
-            await _context.SaveChangesAsync();
-
-            return RedirectToAction("List");
+            return View(whisky);
         }
     }
 }
