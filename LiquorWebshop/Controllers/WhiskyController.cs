@@ -1,4 +1,5 @@
 ﻿using LiquorWebshop.Data;
+using LiquorWebshop.Data.Enum;
 using LiquorWebshop.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -16,9 +17,30 @@ namespace LiquorWebshop.Controllers
             _environment = environment;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string currentSearchString, string searchString, int countryId, WhiskyType type, WhiskyTaste taste)
         {
-            return View(await _context.Whiskies.ToListAsync());
+            ViewData["Countries"] = _context.Countries.ToList();
+
+            searchString = String.IsNullOrEmpty(searchString) ? currentSearchString : searchString;
+            ViewData["CurrentSearchString"] = searchString;
+
+            var whiskies = from whisky in _context.Whiskies
+                           select whisky;
+
+            if (!String.IsNullOrEmpty(searchString))
+                whiskies = whiskies.Where(whisky => whisky.Name.Contains(searchString));
+
+            if (countryId != 0)
+                whiskies = whiskies.Where(whisky => whisky.CountryId == countryId);
+            if (type != WhiskyType.All)
+                whiskies = whiskies.Where(whisky => whisky.Type == type);
+            if (taste != WhiskyTaste.All)
+                whiskies = whiskies.Where(whisky => whisky.Taste == taste);
+
+            if (whiskies == null)
+                return NotFound();
+
+            return View(whiskies);
         }
 
         public async Task<IActionResult> List()

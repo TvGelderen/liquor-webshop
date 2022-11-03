@@ -1,12 +1,58 @@
-﻿@model IEnumerable<LiquorWebshop.Models.Whisky>
+﻿@using LiquorWebshop.Data.Enum
+@model IEnumerable<LiquorWebshop.Models.Whisky>
+
+@{
+    List<Country> Countries = ViewData["Countries"] as List<Country>;
+}
 
 <div class="container">
     <div class="justify-content-center align-items-center text-center">
         <h1>Whiskies</h1>
         <div class="row mt-5" style="max-width:1500px">
-            <div class="col-md-3 col-sm-4 align-items-center border rounded shadow">
-                <div>
+            <div class="col-md-3 col-sm-4 border rounded shadow">
+                <div class="m-3">
+                    <h3>Filters</h3>
+                    <form method="get mt-4">
+                        <div class="mb-3">
+                            <input type="text" name="searchString" value="@ViewData["CurrentSearchString"]" class="form-control" style="margin-top:2px" />
+                            <button asp-controller="Whisky" asp-action="Index" class="btn btn-outline-primary" style="display:block;">Search</button>
+                        </div>
+                        <div class="mb-3">
+                            <label>Country</label>
+                            <select name="countryId" class="form-select">
+                                <option value="0">Select country...</option>
+                                @if (Countries != null)
+                                {
+                                    @foreach (Country country in Countries)
+                                    {
+                                        <option value="@country.Id">@country.Name</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label>Type</label>
+                            <select name="type" class="form-select">
+                                <option value="@WhiskyType.All">Select type...</option>
+                                <option value="@WhiskyType.Malt">Malt</option>
+                                <option value="@WhiskyType.Blend">Blend</option>
+                                <option value="@WhiskyType.Bourbon">Bourbon</option>
+                                <option value="@WhiskyType.Flavoured">Flavoured</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label>Taste</label>
+                            <select name="taste" class="form-select">
+                                <option value="@WhiskyTaste.All">Select taste...</option>
+                                <option value="@WhiskyTaste.Mild_soft">Mild & soft</option>
+                                <option value="@WhiskyTaste.Medium_grany">Medium & grany</option>
+                                <option value="@WhiskyTaste.Full_rich">Full & rich</option>
+                                <option value="@WhiskyTaste.Powerful_smokey">Powerful & smokey</option>
+                            </select>
+                        </div>
 
+                        <button asp-controller="Whisky" asp-action="Index" asp-route-currentSearchString="@ViewData["CurrentSearchString"]" class="btn btn-outline-primary" style="display:block;">Filter</button>
+                    </form>
                 </div>
             </div>
             <div class="col-md-9 col-sm-7 align-items-center">
@@ -21,7 +67,6 @@
                                 <h4>@item.Name</h4>
                                 <p>@item.Volume cl @item.Alcohol%</p>
                                 <hr />
-                                <p>@item.Description</p>
                                 <a class="btn btn-outline-primary">Add to cart <i class="bi bi-plus-lg"></i></a>
                             </div>
                         }

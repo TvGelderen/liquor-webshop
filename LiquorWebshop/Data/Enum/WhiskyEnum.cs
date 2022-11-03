@@ -5,7 +5,8 @@
         Malt,
         Blend,
         Bourbon,
-        Flavoured
+        Flavoured,
+        All
     }
 
     public enum WhiskyTaste
@@ -13,6 +14,7 @@
         Mild_soft,
         Medium_grany,
         Full_rich,
-        Powerful_smokey
+        Powerful_smokey,
+        All
     }
 }
