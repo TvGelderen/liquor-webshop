@@ -74,11 +74,16 @@ namespace LiquorWebshop.Controllers
 
                 whisky.Image = "./img/" + whisky.ImageFile.FileName;
 
+                //TESTING
+                whisky.CountryId = 1;
+
                 await _context.Whiskies.AddAsync(whisky);
                 await _context.SaveChangesAsync();
 
                 return RedirectToAction("List");
             }
+
+            Console.WriteLine(ModelState);
 
             return View(whisky);
         }

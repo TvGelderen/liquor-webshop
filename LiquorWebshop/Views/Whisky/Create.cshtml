@@ -75,7 +75,7 @@
                     <input asp-for="Volume" type="number" step="1" class="form-control" />
                     <span asp-validation-for="Volume" class="text-danger"></span>
                 </div>
-                <div class="mb-3">
+                @*<div class="mb-3">
                     <label asp-for="CountryId"></label>
                     <select asp-for="CountryId" class="form-control form-select">
                         <option>Select country...</option>
@@ -88,7 +88,7 @@
                         }
                     </select>
                     <span asp-validation-for="CountryId" class="text-danger"></span>
-                </div>
+                </div>*@
 
                 <button type="submit" class="btn btn-primary" style="width:150px">Create</button>
                 <a asp-controller="Whisky" asp-action="List" class="btn btn-outline-primary" style="width:150px">Back</a>
